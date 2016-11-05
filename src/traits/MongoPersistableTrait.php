@@ -18,7 +18,9 @@ trait MongoPersistableTrait
      */
     public function bsonSerialize()
     {
-        return static::toArray($this);
+        $result =  static::toArray($this);
+
+        return $result;
     }
 
     /**
@@ -30,6 +32,6 @@ trait MongoPersistableTrait
      */
     public function bsonUnserialize(array $data)
     {
-        return static::buildByOptions($data);
+        static::buildByOptions($data);
     }
 }

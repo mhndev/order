@@ -40,10 +40,6 @@ trait EntityBuilderTrait
      */
     static function toArray(iEntity $entity)
     {
-        \Kint::dump((array) $entity);
-        die();
-
-
         return (array) $entity;
     }
 }
