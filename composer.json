@@ -1,0 +1,30 @@
+{
+  "name": "mhndev/order",
+  "description": "order",
+  "keywords": ["order"],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "majid abdolhosseini",
+      "email": "majid.a@mabna.com",
+      "homepage":"http://mhndev.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "mhndev\\order\\": "src"
+    },
+    "files": [
+      "src/helpers.php"
+    ]
+  },
+  "require": {
+    "php": ">=5.4.0",
+    "mongodb/mongodb": "^1.0.0",
+    "mhndev/event":"^1.0.0"
+  },
+  "require-dev":{
+    "raveren/kint": "^1.0"
+
+  }
+}
