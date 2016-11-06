@@ -3,7 +3,7 @@
 namespace mhndev\order\entities\common;
 use mhndev\order\interfaces\entities\iOrderEntity;
 use mhndev\order\interfaces\entities\iShippingEntity;
-use mhndev\order\traits\EntityBuilder;
+use mhndev\order\traits\EntityBuilderTrait;
 
 /**
  * Class Shipping
@@ -12,7 +12,7 @@ use mhndev\order\traits\EntityBuilder;
 class Shipping implements iShippingEntity
 {
 
-    use EntityBuilder;
+    use EntityBuilderTrait;
 
     /**
      * @var mixed

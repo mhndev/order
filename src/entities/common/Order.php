@@ -5,7 +5,7 @@ namespace mhndev\order\entities\common;
 use mhndev\order\interfaces\entities\iItemEntity;
 use mhndev\order\interfaces\entities\iOrderEntity;
 use mhndev\order\interfaces\entities\iStoreEntity;
-use mhndev\order\traits\EntityBuilder;
+use mhndev\order\traits\EntityBuilderTrait;
 
 /**
  * Class Order
@@ -14,7 +14,9 @@ use mhndev\order\traits\EntityBuilder;
 class Order implements iOrderEntity
 {
 
-    use EntityBuilder;
+    use EntityBuilderTrait {
+        fromOptions as fromOptionsParent;
+    }
 
     /**
      * @var
@@ -54,14 +56,23 @@ class Order implements iOrderEntity
     protected $items;
 
 
-    const ORDER_CANCELED = 1;
-    const ORDER_RECEIVED = 2;
-    const ORDER_PAYED    = 3;
+    const ORDER_INIT     = 1;
+    const ORDER_CANCELED = 2;
+    const ORDER_RECEIVED = 3;
+    const ORDER_PAYED    = 4;
 
 
+    /**
+     * @param array $options
+     * @return $this|void
+     */
+    static function fromOptions(array $options)
+    {
+        $instance = self::fromOptionsParent($options);
 
-
-
+        $instance->setStatus(self::ORDER_INIT);
+        $instance->setDate(time());
+    }
 
     /**
      * @return mixed
@@ -72,9 +83,20 @@ class Order implements iOrderEntity
     }
 
     /**
+     * @param integer $status
+     * @return $this
+     */
+    function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
      * @return mixed
      */
-    function getTotalPrice()
+    function getPrice()
     {
         return $this->price;
     }
@@ -151,4 +173,58 @@ class Order implements iOrderEntity
         return $this;
     }
 
+    /**
+     * @param $price
+     * @return $this
+     */
+    function setPrice($price)
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * @param $date
+     * @return $this
+     */
+    function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * @param $ownerIdentifier
+     * @return $this
+     */
+    function setOwnerIdentifier($ownerIdentifier)
+    {
+        $this->ownerIdentifier = $ownerIdentifier;
+
+        return $this;
+    }
+
+    /**
+     * @param $identifier string
+     * @return $this
+     */
+    function setIdentifier($identifier)
+    {
+        $this->identifier = $identifier;
+
+        return $this;
+    }
+
+    /**
+     * @param iStoreEntity $store
+     * @return mixed
+     */
+    function setStore(iStoreEntity $store)
+    {
+        $this->store = $store;
+
+        return $this;
+    }
 }

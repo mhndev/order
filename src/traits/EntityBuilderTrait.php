@@ -1,7 +1,6 @@
 <?php
 
 namespace mhndev\order\traits;
-use mhndev\order\interfaces\entities\iEntity;
 
 /**
  * Class EntityBuilderTrait
@@ -16,7 +15,7 @@ trait EntityBuilderTrait
      */
     static function fromOptions(array $options)
     {
-        $instance = new self();
+        $instance = new static();
 
         foreach ($options as $key => $value){
             $instance->{'set'.ucfirst($key)}($value);
@@ -25,6 +24,10 @@ trait EntityBuilderTrait
         return $instance;
     }
 
+    /**
+     * @param array $options
+     * @return $this
+     */
     function buildByOptions(array $options)
     {
         foreach ($options as $key => $value){
@@ -35,11 +38,10 @@ trait EntityBuilderTrait
     }
 
     /**
-     * @param iEntity $entity
      * @return array
      */
-    static function toArray(iEntity $entity)
+    function toArray()
     {
-        return (array) $entity;
+        return get_object_vars($this);
     }
 }

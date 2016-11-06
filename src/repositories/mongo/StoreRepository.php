@@ -2,47 +2,17 @@
 
 namespace mhndev\order\repositories\mongo;
 
+use mhndev\order\entities\mongo\Store;
 use mhndev\order\interfaces\entities\iEntity;
 use mhndev\order\interfaces\entities\iStoreEntity;
 use mhndev\order\interfaces\repositories\iStoreRepository;
-use MongoDB\Database;
 
 /**
  * Class StoreRepository
  * @package mhndev\order\repositories\mongo
  */
-class StoreRepository implements iStoreRepository
+class StoreRepository extends aRepository implements iStoreRepository
 {
-
-
-    /**
-     * @var Database
-     */
-    protected $db;
-
-    /**
-     * @var string
-     */
-    protected $collectionName;
-
-    /**
-     * @var \MongoDB\Collection
-     */
-    protected $gateway;
-
-
-    /**
-     * AddressBookMongo constructor.
-     * @param Database $db
-     * @param $collectionName
-     * @internal param $gateway
-     */
-    function __construct(Database $db, $collectionName)
-    {
-        $this->db = $db;
-        $this->collectionName = $collectionName;
-        $this->gateway = $this->db->{$this->collectionName};
-    }
 
 
     /**
@@ -82,12 +52,20 @@ class StoreRepository implements iStoreRepository
 
     /**
      * @param iEntity $entity
-     * @return iEntity
+     * @return iEntity|false
      */
-    function store(iEntity $entity)
+    function insert(iEntity $entity)
     {
-        $result = $this->gateway->insertOne($entity);
+        $storageAwareObject = $this->convertObject($entity, new Store());
 
-        return $result;
+        $result = $this->gateway->insertOne($storageAwareObject);
+
+        if($result->getInsertedCount() == 1){
+            return $result->getInsertedId();
+        }
+        else{
+            return false;
+        }
+
     }
 }

@@ -2,13 +2,14 @@
 
 namespace mhndev\order\repositories\mongo;
 
+use mhndev\order\interfaces\entities\iEntity;
 use mhndev\order\interfaces\repositories\iItemRepository;
 
 /**
  * Class ItemRepository
  * @package mhndev\order\repositories\mongo
  */
-class ItemRepository implements iItemRepository
+class ItemRepository extends aRepository implements iItemRepository
 {
 
     /**
@@ -27,5 +28,14 @@ class ItemRepository implements iItemRepository
     function deleteByIdentifier($identifier)
     {
         // TODO: Implement deleteByIdentifier() method.
+    }
+
+    /**
+     * @param iEntity $entity
+     * @return iEntity
+     */
+    function insert(iEntity $entity)
+    {
+        // TODO: Implement insert() method.
     }
 }

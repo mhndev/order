@@ -6,7 +6,7 @@ use mhndev\order\interfaces\entities\iItemEntity;
 use mhndev\order\interfaces\entities\iOrderEntity;
 use mhndev\order\interfaces\entities\iProductEntity;
 use mhndev\order\interfaces\entities\iStoreEntity;
-use mhndev\order\traits\EntityBuilder;
+use mhndev\order\traits\EntityBuilderTrait;
 
 /**
  * Class Item
@@ -15,7 +15,7 @@ use mhndev\order\traits\EntityBuilder;
 class Item implements iItemEntity
 {
 
-    use EntityBuilder;
+    use EntityBuilderTrait;
 
     /**
      * @var iProductEntity
@@ -42,9 +42,17 @@ class Item implements iItemEntity
     /**
      * @return iProductEntity
      */
-    function getProductEntity()
+    function getProduct()
     {
         return $this->product;
+    }
+
+    /**
+     * @param iProductEntity $product
+     */
+    function setProduct(iProductEntity $product)
+    {
+        $this->product = $product;
     }
 
     /**
@@ -56,11 +64,46 @@ class Item implements iItemEntity
     }
 
     /**
+     * @param $price
+     * @return $this
+     */
+    function setPrice($price)
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    /**
      * @return iOrderEntity
      */
     function getOrderEntity()
     {
         return $this->order;
+    }
+
+
+    /**
+     * @param iOrderEntity $order
+     * @return $this
+     */
+    function setOrder(iOrderEntity $order)
+    {
+        $this->order = $order;
+
+        return $this;
+    }
+
+
+    /**
+     * @param iStoreEntity $store
+     * @return $this
+     */
+    function setStore(iStoreEntity $store)
+    {
+        $this->store = $store;
+
+        return $this;
     }
 
     /**

@@ -10,9 +10,9 @@ interface iItemEntity extends iEntity
 {
 
     /**
-     * @return mixed
+     * @return iProductEntity
      */
-    function getProductEntity();
+    function getProduct();
 
     /**
      * @return mixed

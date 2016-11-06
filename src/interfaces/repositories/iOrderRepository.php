@@ -7,7 +7,7 @@ use mhndev\order\interfaces\entities\iOrderEntity;
  * Interface iOrderRepository
  * @package mhndev\order\interfaces
  */
-interface iOrderRepository
+interface iOrderRepository extends iRepository
 {
     /**
      * @param $identifier

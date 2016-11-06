@@ -15,5 +15,4 @@ class Item extends BaseItem implements iItemEntity,Persistable
 {
     use MongoPersistableTrait;
 
-
 }

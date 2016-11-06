@@ -28,6 +28,6 @@ interface iRepository
      * @param iEntity $entity
      * @return iEntity
      */
-    function store(iEntity $entity);
+    function insert(iEntity $entity);
 
 }
