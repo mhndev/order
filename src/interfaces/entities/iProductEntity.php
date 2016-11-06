@@ -10,19 +10,27 @@ interface iProductEntity extends iEntity
 {
 
     /**
-     * @return mixed
+     * @return string
      */
     function getName();
+
 
     /**
      * @return mixed
      */
     function getIdentifier();
 
+
     /**
-     * @return mixed
+     * @return integer
      */
     function getPrice();
+
+
+    /**
+     * @return iStoreEntity
+     */
+    function getStore();
 
 
 }

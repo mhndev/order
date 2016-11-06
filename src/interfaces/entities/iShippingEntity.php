@@ -26,11 +26,6 @@ interface iShippingEntity extends iEntity
     /**
      * @return mixed
      */
-    function getOrderEntity();
-
-    /**
-     * @return mixed
-     */
     function isSingleOrder();
 
     /**

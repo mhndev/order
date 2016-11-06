@@ -2,6 +2,7 @@
 namespace mhndev\order\entities\common;
 
 use mhndev\order\interfaces\entities\iProductEntity;
+use mhndev\order\interfaces\entities\iStoreEntity;
 use mhndev\order\traits\EntityBuilderTrait;
 
 /**
@@ -27,6 +28,12 @@ class Product implements iProductEntity
      * @var
      */
     protected $price;
+
+
+    /**
+     * @var iStoreEntity
+     */
+    protected $store;
 
 
     /**
@@ -82,6 +89,25 @@ class Product implements iProductEntity
     function setPrice($price)
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * @return iStoreEntity
+     */
+    function getStore()
+    {
+        return $this->store;
+    }
+
+    /**
+     * @param iStoreEntity $store
+     * @return $this
+     */
+    function setStore(iStoreEntity $store)
+    {
+        $this->store = $store;
 
         return $this;
     }

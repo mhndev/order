@@ -2,6 +2,7 @@
 
 namespace mhndev\order\repositories\mongo;
 
+use mhndev\order\interfaces\entities\iEntity;
 use mhndev\order\interfaces\repositories\iShippingRepository;
 
 /**
@@ -54,5 +55,14 @@ class ShippingRepository implements iShippingRepository
     function listShippings()
     {
         // TODO: Implement listShippings() method.
+    }
+
+    /**
+     * @param iEntity $entity
+     * @return iEntity
+     */
+    function insert(iEntity $entity)
+    {
+        // TODO: Implement insert() method.
     }
 }

@@ -1,7 +1,6 @@
 <?php
-
 namespace mhndev\order\entities\common;
-use mhndev\order\interfaces\entities\iOrderEntity;
+
 use mhndev\order\interfaces\entities\iShippingEntity;
 use mhndev\order\traits\EntityBuilderTrait;
 
@@ -30,15 +29,15 @@ class Shipping implements iShippingEntity
     protected $end;
 
     /**
-     * @var iOrderEntity
+     * @var array iOrderEntity
      */
-    protected $order;
+    protected $orders;
 
 
     /**
      * @var boolean
      */
-    protected $isSingleOrder;
+    private $isSingleOrder;
 
 
     /**
@@ -65,13 +64,6 @@ class Shipping implements iShippingEntity
         return $this->end;
     }
 
-    /**
-     * @return iOrderEntity
-     */
-    function getOrderEntity()
-    {
-        return $this->order;
-    }
 
     /**
      * @return boolean
@@ -82,10 +74,10 @@ class Shipping implements iShippingEntity
     }
 
     /**
-     * @return mixed
+     * @return array of order entities
      */
     function getOrderEntities()
     {
-        return $this->order;
+        return $this->orders;
     }
 }

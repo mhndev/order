@@ -15,17 +15,17 @@ interface iItemEntity extends iEntity
     function getProduct();
 
     /**
-     * @return mixed
+     * @return integer
      */
     function getPrice();
 
     /**
-     * @return mixed
+     * @return iOrderEntity
      */
-    function getOrderEntity();
+    function getOrder();
 
     /**
-     * @return mixed
+     * @return iStoreEntity
      */
     function getStore();
 

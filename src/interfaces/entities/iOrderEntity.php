@@ -72,18 +72,6 @@ interface iOrderEntity extends iEntity
     function setIdentifier($identifier);
 
     /**
-     * @return iStoreEntity
-     */
-    function getStore();
-
-
-    /**
-     * @param iStoreEntity $store
-     * @return mixed
-     */
-    function setStore(iStoreEntity $store);
-
-    /**
      * @return mixed
      */
     function getItemEntities();
@@ -100,4 +88,18 @@ interface iOrderEntity extends iEntity
      * @return $this
      */
     function removeItem(iItemEntity $item);
+
+
+    /**
+     * @param iShippingEntity $shipping
+     * @return $this
+     */
+    function setShipping(iShippingEntity $shipping);
+
+
+    /**
+     * @return iShippingEntity
+     */
+    function getShipping();
+
 }

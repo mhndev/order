@@ -57,7 +57,10 @@ abstract class aRepository
         $data = $source->toArray();
 
         foreach ($data as $key => $value){
-            $destination->{'set'.ucfirst($key)}($value);
+            if(!is_null($value) && ! empty($value)){
+                $destination->{'set'.ucfirst($key)}($value);
+
+            }
         }
 
         return $destination;

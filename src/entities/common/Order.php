@@ -4,6 +4,7 @@ namespace mhndev\order\entities\common;
 
 use mhndev\order\interfaces\entities\iItemEntity;
 use mhndev\order\interfaces\entities\iOrderEntity;
+use mhndev\order\interfaces\entities\iShippingEntity;
 use mhndev\order\interfaces\entities\iStoreEntity;
 use mhndev\order\traits\EntityBuilderTrait;
 
@@ -45,15 +46,14 @@ class Order implements iOrderEntity
 
 
     /**
-     * @var iStoreEntity
+     * @var iShippingEntity
      */
-    protected $store;
-
+    protected $shipping;
 
     /**
      * @var array of iItemEntity
      */
-    protected $items;
+    protected $items = [];
 
 
     const ORDER_INIT     = 1;
@@ -72,6 +72,8 @@ class Order implements iOrderEntity
 
         $instance->setStatus(self::ORDER_INIT);
         $instance->setDate(time());
+
+        return $instance;
     }
 
     /**
@@ -125,13 +127,6 @@ class Order implements iOrderEntity
         return $this->identifier;
     }
 
-    /**
-     * @return iStoreEntity
-     */
-    function getStore()
-    {
-        return $this->store;
-    }
 
     /**
      * @return array
@@ -218,13 +213,21 @@ class Order implements iOrderEntity
     }
 
     /**
-     * @param iStoreEntity $store
-     * @return mixed
+     * @param iShippingEntity $shipping
+     * @return $this
      */
-    function setStore(iStoreEntity $store)
+    function setShipping(iShippingEntity $shipping)
     {
-        $this->store = $store;
+        $this->shipping = $shipping;
 
         return $this;
+    }
+
+    /**
+     * @return iShippingEntity
+     */
+    function getShipping()
+    {
+        return $this->shipping;
     }
 }

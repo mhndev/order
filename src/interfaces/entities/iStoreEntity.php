@@ -13,4 +13,5 @@ interface iStoreEntity extends iEntity
     function getName();
 
 
+
 }

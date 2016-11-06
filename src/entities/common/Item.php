@@ -113,4 +113,13 @@ class Item implements iItemEntity
     {
         return $this->store;
     }
+
+    /**
+     * @return iOrderEntity
+     */
+    function getOrder()
+    {
+        return $this->order;
+    }
+
 }
