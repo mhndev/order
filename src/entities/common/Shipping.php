@@ -33,6 +33,11 @@ class Shipping implements iShippingEntity
      */
     protected $orders;
 
+    /**
+     * @var
+     */
+    protected $issuedDate;
+
 
     /**
      * @var boolean
@@ -79,5 +84,24 @@ class Shipping implements iShippingEntity
     function getOrderEntities()
     {
         return $this->orders;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIssuedDate()
+    {
+        return $this->issuedDate;
+    }
+
+    /**
+     * @param mixed $issuedDate
+     * @return $this
+     */
+    public function setIssuedDate($issuedDate)
+    {
+        $this->issuedDate = $issuedDate;
+
+        return $this;
     }
 }

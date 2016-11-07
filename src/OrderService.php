@@ -146,7 +146,7 @@ class OrderService
      */
     function createAShippingAndAttachOrders(array $orders)
     {
-        $shipping = Shipping::fromOptions([]);
+        $shipping = Shipping::fromOptions(['issuedDate' => time()]);
 
         $this->shippingRepository->insert($shipping);
 
@@ -159,10 +159,16 @@ class OrderService
     /**
      * @param iShippingEntity $shipping
      * @param array $orders
+     * @return iShippingEntity
      */
     function attachOrdersToExistingShipping(iShippingEntity $shipping, array $orders)
     {
+        foreach ($orders as $order){
+            /** @var iOrderEntity $order */
+            $order->setShipping($shipping);
+        }
 
+        return $shipping;
     }
 
 

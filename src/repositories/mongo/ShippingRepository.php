@@ -2,6 +2,7 @@
 
 namespace mhndev\order\repositories\mongo;
 
+use mhndev\order\entities\mongo\Shipping;
 use mhndev\order\interfaces\entities\iEntity;
 use mhndev\order\interfaces\repositories\iShippingRepository;
 
@@ -9,7 +10,7 @@ use mhndev\order\interfaces\repositories\iShippingRepository;
  * Class ShippingRepository
  * @package mhndev\order\repositories\mongo
  */
-class ShippingRepository implements iShippingRepository
+class ShippingRepository extends aRepository implements iShippingRepository
 {
 
     /**
@@ -59,10 +60,19 @@ class ShippingRepository implements iShippingRepository
 
     /**
      * @param iEntity $entity
-     * @return iEntity
+     * @return iEntity|false
      */
     function insert(iEntity $entity)
     {
-        // TODO: Implement insert() method.
+        $storageAwareObject = $this->convertObject($entity, new Shipping());
+
+        $result = $this->gateway->insertOne($storageAwareObject);
+
+        if($result->getInsertedCount() == 1){
+            return $result->getInsertedId();
+        }
+        else{
+            return false;
+        }
     }
 }

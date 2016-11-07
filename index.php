@@ -43,3 +43,5 @@ $product = $orderService->createProduct('laptop', 2000);
 $order = $orderService->createAnOrderForOwner('13cr31v432cr23');
 
 $orderService->attachProductsToAnOrder($order, [$product]);
+
+$orderService->createAShippingAndAttachOrders([$order]);
