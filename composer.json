@@ -21,6 +21,7 @@
   "require": {
     "php": ">=5.4.0",
     "mongodb/mongodb": "^1.0.0",
+    "poirot/std" :"dev-devel",
     "mhndev/event":"^1.0.0"
   },
   "require-dev":{

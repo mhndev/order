@@ -2,8 +2,8 @@
 
 namespace mhndev\order\entities\common;
 
-use mhndev\order\interfaces\entities\iItemEntity;
-use mhndev\order\interfaces\entities\iOrderEntity;
+use mhndev\order\interfaces\entities\iEntityOrderItemObject;
+use mhndev\order\interfaces\entities\iEntityOrder;
 use mhndev\order\interfaces\entities\iProductEntity;
 use mhndev\order\interfaces\entities\iStoreEntity;
 use mhndev\order\traits\EntityBuilderTrait;
@@ -12,7 +12,7 @@ use mhndev\order\traits\EntityBuilderTrait;
  * Class Item
  * @package mhndev\order\entities\common
  */
-class Item implements iItemEntity
+class OrderItem implements iEntityOrderItemObject
 {
 
     use EntityBuilderTrait;
@@ -28,7 +28,7 @@ class Item implements iItemEntity
     protected $price;
 
     /**
-     * @var iOrderEntity
+     * @var iEntityOrder
      */
     protected $order;
 
@@ -75,7 +75,7 @@ class Item implements iItemEntity
     }
 
     /**
-     * @return iOrderEntity
+     * @return iEntityOrder
      */
     function getOrderEntity()
     {
@@ -84,10 +84,10 @@ class Item implements iItemEntity
 
 
     /**
-     * @param iOrderEntity $order
+     * @param iEntityOrder $order
      * @return $this
      */
-    function setOrder(iOrderEntity $order)
+    function setOrder(iEntityOrder $order)
     {
         $this->order = $order;
 
@@ -115,7 +115,7 @@ class Item implements iItemEntity
     }
 
     /**
-     * @return iOrderEntity
+     * @return iEntityOrder
      */
     function getOrder()
     {

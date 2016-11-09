@@ -2,7 +2,6 @@
 
 namespace mhndev\order\repositories\mongo;
 
-use mhndev\order\interfaces\entities\iEntity;
 use MongoDB\Database;
 
 /**
@@ -43,27 +42,6 @@ abstract class aRepository
         $this->db = $db;
         $this->collectionName = $collectionName;
         $this->gateway = $this->db->{$this->collectionName};
-    }
-
-
-    /**
-     * @param iEntity $source
-     * @param iEntity $destination
-     * @return mixed
-     * @internal param iEntity $entity
-     */
-    protected function convertObject(iEntity $source, iEntity $destination)
-    {
-        $data = $source->toArray();
-
-        foreach ($data as $key => $value){
-            if(!is_null($value) && ! empty($value)){
-                $destination->{'set'.ucfirst($key)}($value);
-
-            }
-        }
-
-        return $destination;
     }
 
 }

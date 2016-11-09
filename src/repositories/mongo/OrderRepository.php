@@ -3,11 +3,10 @@
 namespace mhndev\order\repositories\mongo;
 
 use mhndev\order\entities\mongo\Order;
-use mhndev\order\entities\common\Item;
-use mhndev\order\interfaces\entities\iEntity;
-use mhndev\order\interfaces\entities\iOrderEntity;
-use mhndev\order\interfaces\entities\iStoreEntity;
+use mhndev\order\interfaces\entities\iEntityOrder;
 use mhndev\order\interfaces\repositories\iOrderRepository;
+use MongoDB\BSON\ObjectID;
+use MongoDB\Operation\FindOneAndUpdate;
 
 /**
  * Class OrderRepository
@@ -18,115 +17,89 @@ class OrderRepository extends aRepository implements iOrderRepository
 
     /**
      * @param $identifier
-     * @return iOrderEntity
-     */
-    function getOrderByIdentifier($identifier)
-    {
-        // TODO: Implement getOrderByIdentifier() method.
-    }
-
-    /**
-     * @param array $filters
-     * @return array
-     */
-    function listOrders(array $filters)
-    {
-        // TODO: Implement listOrders() method.
-    }
-
-    /**
-     * @param iOrderEntity $order
-     * @return iOrderEntity
-     */
-    function createNewOrder(iOrderEntity $order)
-    {
-        // TODO: Implement createNewOrder() method.
-    }
-
-    /**
-     * @param iOrderEntity $order
-     * @return iOrderEntity
-     */
-    function updateAnOrder(iOrderEntity $order)
-    {
-        // TODO: Implement updateAnOrder() method.
-    }
-
-    /**
-     * @param $identifier
-     * @return mixed
+     * @return iEntityOrder
      */
     function findByIdentifier($identifier)
     {
-        // TODO: Implement findByIdentifier() method.
-    }
+        $result = $this->gateway->findOne(['_id' => new ObjectID($identifier) ]);
 
-    /**
-     * @param $identifier
-     * @return mixed
-     */
-    function deleteByIdentifier($identifier)
-    {
-        // TODO: Implement deleteByIdentifier() method.
-    }
-
-
-    /**
-     * @param iEntity $entity
-     * @return iEntity|false
-     */
-    function insert(iEntity $entity)
-    {
-        $storageAwareObject = $this->convertObject($entity, new Order());
-
-        $result = $this->gateway->insertOne($storageAwareObject);
-
-        if($result->getInsertedCount() == 1){
-            return $result->getInsertedId();
-        }
-        else{
-            return false;
-        }
-    }
-
-    /**
-     * @param $ownerIdentifier
-     * @param iStoreEntity $fromStore
-     * @return Order
-     */
-    function createAnOrderFor($ownerIdentifier, iStoreEntity $fromStore)
-    {
-        $order = new Order();
-
-        $order->setOwnerIdentifier($ownerIdentifier);
-        $order->setStore($fromStore);
-
-        $result = $this->insert($order);
+        $order = new \mhndev\order\entities\common\Order($result);
+        $order->setIdentifier($identifier);
 
         return $order;
     }
 
-
     /**
-     * @param iOrderEntity $order
-     * @param array $products
-     * @return bool
+     * @param $ownerIdentifier
+     * @param null $offset
+     * @param null $limit
+     * @return []iEntityOrder
      */
-    function attachProductToAnOrder(iOrderEntity $order, array $products)
+    function findByOwner($ownerIdentifier, $offset = null, $limit = null)
     {
-        $itemRepository = new ItemRepository($this->db, 'items');
-
-
-        foreach ($products as $product)
-        {
-            $item = new Item([ 'product' => $product, 'order' => $order ]);
-            $itemRepository->insert($item);
-            $order->addItem($item);
-        }
-
-        return true;
+        return $this->gateway->find(['owner' => $ownerIdentifier])->toArray();
     }
 
+    /**
+     * @param $ownerIdentifier
+     * @param $startDate
+     * @param $endDate
+     * @param null $offset
+     * @param null $limit
+     * @return mixed
+     */
+    function findByOwnerAndDate($ownerIdentifier, $startDate, $endDate, $offset = null, $limit = null)
+    {
+        // TODO: Implement findByOwnerAndDate() method.
+    }
 
+    /**
+     * @param $orderIdentifier
+     * @param $status
+     * @return iEntityOrder
+     */
+    function changeStatus($orderIdentifier, $status)
+    {
+        $result = $this->gateway->findOneAndUpdate(
+            ['_id' => new ObjectID($orderIdentifier)],
+            ['$set'=>['status' => $status]],
+            ['returnDocument' => FindOneAndUpdate::RETURN_DOCUMENT_AFTER]
+        );
+
+        return new \mhndev\order\entities\common\Order($result);
+    }
+
+    /**
+     * @param iEntityOrder $order
+     * @return iEntityOrder
+     */
+    function insert(iEntityOrder $order)
+    {
+        $orderMongo = new Order($order);
+
+        $res = $this->gateway->insertOne($orderMongo);
+
+        $order->setIdentifier($res->getInsertedId()->__toString());
+
+        return $order;
+    }
+
+    /**
+     * @param iEntityOrder $order
+     *
+     * @return iEntityOrder
+     * @throws \InvalidArgumentException
+     */
+    function update(iEntityOrder $order)
+    {
+
+        $result =  $this->gateway->findOneAndUpdate(
+            ['_id' => new ObjectID($order->getIdentifier()) ],
+            ['$set'=>\Poirot\Std\cast($order)->toArray()],
+            ['returnDocument' => FindOneAndUpdate::RETURN_DOCUMENT_AFTER]
+        );
+
+        return new \mhndev\order\entities\common\Order($result);
+    }
 
 }

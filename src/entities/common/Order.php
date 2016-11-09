@@ -2,23 +2,16 @@
 
 namespace mhndev\order\entities\common;
 
-use mhndev\order\interfaces\entities\iItemEntity;
-use mhndev\order\interfaces\entities\iOrderEntity;
-use mhndev\order\interfaces\entities\iShippingEntity;
-use mhndev\order\interfaces\entities\iStoreEntity;
-use mhndev\order\traits\EntityBuilderTrait;
+use mhndev\order\interfaces\entities\iEntityOrderItemObject;
+use mhndev\order\interfaces\entities\iEntityOrder;
+use Poirot\Std\Struct\DataOptionsOpen;
 
 /**
  * Class Order
  * @package mhndev\order\entities
  */
-class Order implements iOrderEntity
+class Order extends DataOptionsOpen implements iEntityOrder
 {
-
-    use EntityBuilderTrait {
-        fromOptions as fromOptionsParent;
-    }
-
     /**
      * @var
      */
@@ -46,11 +39,6 @@ class Order implements iOrderEntity
 
 
     /**
-     * @var iShippingEntity
-     */
-    protected $shipping;
-
-    /**
      * @var array of iItemEntity
      */
     protected $items = [];
@@ -61,20 +49,6 @@ class Order implements iOrderEntity
     const ORDER_RECEIVED = 3;
     const ORDER_PAYED    = 4;
 
-
-    /**
-     * @param array $options
-     * @return $this|void
-     */
-    static function fromOptions(array $options)
-    {
-        $instance = self::fromOptionsParent($options);
-
-        $instance->setStatus(self::ORDER_INIT);
-        $instance->setDate(time());
-
-        return $instance;
-    }
 
     /**
      * @return mixed
@@ -137,11 +111,11 @@ class Order implements iOrderEntity
     }
 
     /**
-     * @param iItemEntity $item
+     * @param iEntityOrderItemObject $item
      * @return $this
      * @throws \Exception
      */
-    function addItem(iItemEntity $item)
+    function addItem(iEntityOrderItemObject $item)
     {
         if (in_array($item, $this->items, true)) {
             throw new \Exception('item already exist in items array');
@@ -153,11 +127,11 @@ class Order implements iOrderEntity
     }
 
     /**
-     * @param iItemEntity $item
+     * @param iEntityOrderItemObject $item
      * @return $this
      * @throws \Exception
      */
-    function removeItem(iItemEntity $item)
+    function removeItem(iEntityOrderItemObject $item)
     {
         if (!in_array($item, $this->items, true)) {
             throw new \Exception("item doesn't exist in items array");
@@ -212,22 +186,21 @@ class Order implements iOrderEntity
         return $this;
     }
 
-    /**
-     * @param iShippingEntity $shipping
-     * @return $this
-     */
-    function setShipping(iShippingEntity $shipping)
-    {
-        $this->shipping = $shipping;
 
-        return $this;
+
+    /**
+     * @return mixed
+     */
+    function getItems()
+    {
+        // TODO: Implement getItems() method.
     }
 
     /**
-     * @return iShippingEntity
+     * @return mixed
      */
-    function getShipping()
+    function clearItems()
     {
-        return $this->shipping;
+        // TODO: Implement clearItems() method.
     }
 }

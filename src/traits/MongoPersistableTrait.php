@@ -18,7 +18,9 @@ trait MongoPersistableTrait
      */
     public function bsonSerialize()
     {
-        $result = $this->toArray();
+        $result = \Poirot\Std\cast($this)->toArray(function($val){
+            return empty($val) && ($val !== 0 && $val !== "0");
+        });
 
         return $result;
     }
@@ -32,6 +34,6 @@ trait MongoPersistableTrait
      */
     public function bsonUnserialize(array $data)
     {
-        return $this->buildByOptions($data);
+        $this->import($data);
     }
 }

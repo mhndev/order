@@ -1,37 +1,61 @@
 <?php
 
 namespace mhndev\order\interfaces\repositories;
-use mhndev\order\interfaces\entities\iOrderEntity;
+use mhndev\order\interfaces\entities\iEntityOrder;
 
 /**
  * Interface iOrderRepository
  * @package mhndev\order\interfaces
  */
-interface iOrderRepository extends iRepository
+interface iOrderRepository
 {
+
+
     /**
      * @param $identifier
-     * @return iOrderEntity
+     * @return iEntityOrder
      */
-    function getOrderByIdentifier($identifier);
+    function findByIdentifier($identifier);
 
     /**
-     * @param array $filters
-     * @return array
+     * @param $ownerIdentifier
+     * @param null $offset
+     * @param null $limit
+     * @return []iEntityOrder
      */
-    function listOrders(array $filters);
+    function findByOwner($ownerIdentifier, $offset = null, $limit = null);
 
     /**
-     * @param iOrderEntity $order
-     * @return iOrderEntity
+     * @param $ownerIdentifier
+     * @param $startDate
+     * @param $endDate
+     * @param null $offset
+     * @param null $limit
+     * @return mixed
      */
-    function createNewOrder(iOrderEntity $order);
+    function findByOwnerAndDate($ownerIdentifier, $startDate, $endDate, $offset = null, $limit = null);
+
 
     /**
-     * @param iOrderEntity $order
-     * @return iOrderEntity
+     * @param $orderIdentifier
+     * @param $status
+     * @return iEntityOrder
      */
-    function updateAnOrder(iOrderEntity $order);
+    function changeStatus($orderIdentifier, $status);
+
+    /**
+     * @param iEntityOrder $order
+     * @return iEntityOrder
+     */
+    function insert(iEntityOrder $order);
+
+    /**
+     * @param iEntityOrder $order
+     *
+     * @return iEntityOrder
+     * @throws \InvalidArgumentException
+     */
+    function update(iEntityOrder $order);
 
 
 }

@@ -2,12 +2,12 @@
 
 namespace mhndev\order;
 
-use mhndev\order\entities\common\Item;
+use mhndev\order\entities\common\OrderItem;
 use mhndev\order\entities\common\Order;
 use mhndev\order\entities\common\Product;
 use mhndev\order\entities\common\Shipping;
 use mhndev\order\entities\common\Store;
-use mhndev\order\interfaces\entities\iOrderEntity;
+use mhndev\order\interfaces\entities\iEntityOrder;
 use mhndev\order\interfaces\entities\iProductEntity;
 use mhndev\order\interfaces\entities\iShippingEntity;
 use mhndev\order\interfaces\repositories\iItemRepository;
@@ -121,16 +121,16 @@ class OrderService
     }
 
     /**
-     * @param iOrderEntity $order
+     * @param iEntityOrder $order
      * @param array $products
-     * @return iOrderEntity
+     * @return iEntityOrder
      */
-    function attachProductsToAnOrder(iOrderEntity $order, array $products)
+    function attachProductsToAnOrder(iEntityOrder $order, array $products)
     {
         /** @var iProductEntity $product */
         foreach ($products as $product){
 
-            $item = Item::fromOptions(['product' => $product, 'order' => $order, 'price' => $product->getPrice()]);
+            $item = OrderItem::fromOptions(['product' => $product, 'order' => $order, 'price' => $product->getPrice()]);
             $result = $this->itemRepository->insert($item);
 
             $order->addItem($item);
@@ -164,7 +164,7 @@ class OrderService
     function attachOrdersToExistingShipping(iShippingEntity $shipping, array $orders)
     {
         foreach ($orders as $order){
-            /** @var iOrderEntity $order */
+            /** @var iEntityOrder $order */
             $order->setShipping($shipping);
         }
 

@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "fa1f9bc3d40256239b44b38496e559b5",
-    "content-hash": "358573edab900fcdd16da4c0476480ed",
+    "hash": "bb4dda718cd6606b56cb2d5b1dab10f1",
+    "content-hash": "1695f9e86bb831b67cb331a10602303a",
     "packages": [
         {
             "name": "mhndev/event",
@@ -99,6 +99,44 @@
                 "persistence"
             ],
             "time": "2016-09-23 19:38:29"
+        },
+        {
+            "name": "poirot/std",
+            "version": "dev-devel",
+            "target-dir": "Poirot/Std",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phPoirot/Std.git",
+                "reference": "a706c68496011d8323bbb52b958aa447cc1bbf54"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phPoirot/Std/zipball/a706c68496011d8323bbb52b958aa447cc1bbf54",
+                "reference": "a706c68496011d8323bbb52b958aa447cc1bbf54",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Poirot\\Std": "."
+                },
+                "files": [
+                    "_functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Payam Naderi",
+                    "email": "naderi.payam@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Poirot Standard Libraries and Base Functionality.",
+            "time": "2016-11-02 15:39:08"
         }
     ],
     "packages-dev": [
@@ -156,7 +194,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "poirot/std": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

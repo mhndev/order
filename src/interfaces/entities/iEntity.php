@@ -7,9 +7,5 @@ namespace mhndev\order\interfaces\entities;
  */
 interface iEntity
 {
-    /**
-     * @param array $options
-     * @return $this
-     */
-    static function fromOptions(array $options);
+
 }
