@@ -16,7 +16,10 @@ $db = $mongoClient->selectDatabase('order');
 
 $orderRepository = new mhndev\order\repositories\mongo\OrderRepository($db, 'orders');
 
+/** @var \mhndev\order\entities\common\Order $result */
 $result = $orderRepository->findByIdentifier($_GET['id']);
 
-Kint::dump($result);
-die();
+$array = $result->objectToArray($result);
+
+echo json_encode($array);
+exit;

@@ -1,10 +1,10 @@
 {
     "swagger": "2.0",
     "info": {
-        "title": "Sample API",
+        "title": "OrderService",
         "contact": {
-            "name": "Marco Raddatz",
-            "url": "https://www.marcoraddatz.com"
+            "name": "Majid Abdolhosseini",
+            "url": "http://www.mhndev.com"
         },
         "version": "1.0"
     },
@@ -14,23 +14,81 @@
         "http"
     ],
     "paths": {
-        "/api/dashboard": {
+        "/show.php": {
             "get": {
                 "tags": [
-                    "dashboard"
+                    "Order"
                 ],
-                "summary": "Display a listing of the resource.",
-                "description": "Returns dashboard overview.",
-                "operationId": "api.dashboard.index",
+                "summary": "show an order",
+                "description": "Returns specified Order",
+                "operationId": "api.order.show",
                 "produces": [
                     "application/json"
                 ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "order id to show",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "Dashboard overview."
+                        "description": "order show."
                     },
                     "401": {
                         "description": "Unauthorized action."
+                    },
+                    "404": {
+                        "description": "Not found."
+                    }
+                }
+            }
+        },
+        "/insert.php": {
+            "post": {
+                "tags": [
+                    "Order"
+                ],
+                "summary": "create an order",
+                "description": "Create an Order and return it as response",
+                "operationId": "api.order.create",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "ownerIdentifier",
+                        "in": "formData",
+                        "description": "owner Identifier",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "items",
+                        "in": "formData",
+                        "description": "order items",
+                        "required": true,
+                        "type": "array",
+                        "items": {
+                            "$ref": "OrderItem"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "order show.",
+                        "schema": {
+                            "$ref": "Order"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized action."
+                    },
+                    "404": {
+                        "description": "Not found."
                     }
                 }
             }
@@ -44,24 +102,92 @@
             ],
             "properties": {
                 "code": {
-                    "description": "Class ApiController",
                     "type": "integer",
                     "format": "int32"
                 },
                 "message": {
-                    "description": "Class ApiController",
                     "type": "string"
                 }
             }
         },
-        "Machine": {
+        "Extra": {
+            "required": [],
+            "properties": {
+                "from": {
+                    "title": "from",
+                    "type": "Point"
+                },
+                "to": {
+                    "title": "to",
+                    "type": "Point"
+                }
+            }
+        },
+        "Point": {
+            "required": [],
+            "properties": {
+                "lat": {
+                    "title": "lat",
+                    "type": "float",
+                    "example": "37.3243546"
+                },
+                "lon": {
+                    "title": "lon",
+                    "type": "float",
+                    "example": "51.2345634"
+                }
+            }
+        },
+        "OrderItem": {
             "required": [
-                "name"
+                "price",
+                "itemType",
+                "itemIdentifier",
+                "extra"
             ],
             "properties": {
-                "table": {
+                "identifier": {
+                    "title": "identifier",
+                    "description": "UUID",
                     "type": "string",
-                    "format": "string"
+                    "example": "24rf2rf3"
+                },
+                "itemType": {
+                    "title": "itemType",
+                    "type": "string",
+                    "example": "peik"
+                },
+                "itemIdentifier": {
+                    "title": "itemIdentifier",
+                    "type": "string",
+                    "example": "2"
+                },
+                "extra": {
+                    "title": "extra",
+                    "type": "Extra"
+                }
+            }
+        },
+        "Order": {
+            "required": [
+                "status"
+            ],
+            "properties": {
+                "identifier": {
+                    "title": "identifier",
+                    "description": "UUID",
+                    "type": "string",
+                    "example": "42t34gt34t"
+                },
+                "status": {
+                    "title": "status",
+                    "type": "string",
+                    "example": "0"
+                },
+                "data": {
+                    "title": "date",
+                    "type": "string",
+                    "example": "23456723"
                 }
             }
         }
