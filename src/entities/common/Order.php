@@ -4,14 +4,17 @@ namespace mhndev\order\entities\common;
 
 use mhndev\order\interfaces\entities\iEntityOrderItemObject;
 use mhndev\order\interfaces\entities\iEntityOrder;
-use Poirot\Std\Struct\DataOptionsOpen;
+use mhndev\order\traits\EntityBuilderTrait;
 
 /**
  * Class Order
  * @package mhndev\order\entities
  */
-class Order extends DataOptionsOpen implements iEntityOrder
+class Order implements iEntityOrder
 {
+
+    use EntityBuilderTrait;
+
     /**
      * @var
      */
@@ -23,7 +26,7 @@ class Order extends DataOptionsOpen implements iEntityOrder
     protected $status;
 
     /**
-     * @var integer
+     * @var float
      */
     protected $price;
 
@@ -48,6 +51,21 @@ class Order extends DataOptionsOpen implements iEntityOrder
     const ORDER_CANCELED = 2;
     const ORDER_RECEIVED = 3;
     const ORDER_PAYED    = 4;
+
+
+    /**
+     * Order constructor.
+     * @param null $data
+     */
+    function __construct($data = null)
+    {
+//        $this->ownerIdentifier = $data['owner'];
+//
+//        $this->setItems($data['items']);
+//        $this->date = time();
+//        $this->status = self::ORDER_INIT;
+    }
+
 
 
     /**
@@ -101,15 +119,6 @@ class Order extends DataOptionsOpen implements iEntityOrder
         return $this->identifier;
     }
 
-
-    /**
-     * @return array
-     */
-    function getItemEntities()
-    {
-        return $this->items;
-    }
-
     /**
      * @param iEntityOrderItemObject $item
      * @return $this
@@ -122,6 +131,7 @@ class Order extends DataOptionsOpen implements iEntityOrder
         }
 
         $this->items[] = $item;
+        $this->price += $item->getPrice();
 
         return $this;
     }
@@ -137,18 +147,9 @@ class Order extends DataOptionsOpen implements iEntityOrder
             throw new \Exception("item doesn't exist in items array");
         }
 
+        $this->price -= $item->getPrice();
+
         unsetValue($this->items, $item);
-
-        return $this;
-    }
-
-    /**
-     * @param $price
-     * @return $this
-     */
-    function setPrice($price)
-    {
-        $this->price = $price;
 
         return $this;
     }
@@ -187,20 +188,57 @@ class Order extends DataOptionsOpen implements iEntityOrder
     }
 
 
+    /**
+     * @param array $items
+     * @return $this
+     */
+    function setItems(array $items)
+    {
+
+        foreach ($items as $item){
+            $orderItemObject = new OrderItem($item);
+
+            //todo check this code here ...
+            $orderItemObject->setPrice($item['price']);
+            $orderItemObject->setExtra($item['extra'] );
+            $orderItemObject->setItemType($item['itemType']);
+            $orderItemObject->setItemIdentifier($item['itemIdentifier']);
+
+
+            $this->addItem($orderItemObject);
+        }
+        return $this;
+    }
+
 
     /**
      * @return mixed
      */
     function getItems()
     {
-        // TODO: Implement getItems() method.
+        return $this->items;
     }
 
     /**
-     * @return mixed
+     * @param $price
+     * @return $this
+     */
+    function setPrice($price)
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+
+    /**
+     * @return $this
      */
     function clearItems()
     {
-        // TODO: Implement clearItems() method.
+        $this->items = [];
+
+        return $this;
     }
+
 }

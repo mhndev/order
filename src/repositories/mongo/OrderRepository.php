@@ -23,7 +23,8 @@ class OrderRepository extends aRepository implements iOrderRepository
     {
         $result = $this->gateway->findOne(['_id' => new ObjectID($identifier) ]);
 
-        $order = new \mhndev\order\entities\common\Order($result);
+        $order = $this->objectToObject($result, \mhndev\order\entities\common\Order::class);
+
         $order->setIdentifier($identifier);
 
         return $order;
@@ -69,13 +70,31 @@ class OrderRepository extends aRepository implements iOrderRepository
         return new \mhndev\order\entities\common\Order($result);
     }
 
+
+    /**
+     * @param $instance
+     * @param $className
+     * @return mixed
+     */
+    private function objectToObject($instance, $className)
+    {
+        return unserialize(sprintf(
+            'O:%d:"%s"%s',
+            strlen($className),
+            $className,
+            strstr(strstr(serialize($instance), '"'), ':')
+        ));
+    }
+
+
     /**
      * @param iEntityOrder $order
      * @return iEntityOrder
      */
     function insert(iEntityOrder $order)
     {
-        $orderMongo = new Order($order);
+        /** @var Order $orderMongo */
+        $orderMongo = $this->objectToObject($order, Order::class);
 
         $res = $this->gateway->insertOne($orderMongo);
 
@@ -83,6 +102,8 @@ class OrderRepository extends aRepository implements iOrderRepository
 
         return $order;
     }
+
+
 
     /**
      * @param iEntityOrder $order

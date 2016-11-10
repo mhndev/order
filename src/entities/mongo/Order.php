@@ -15,19 +15,4 @@ class Order extends BaseOrder implements iEntityOrder,Persistable
 
     use MongoPersistableTrait;
 
-    /**
-     * @return mixed
-     */
-    function getItems()
-    {
-        // TODO: Implement getItems() method.
-    }
-
-    /**
-     * @return mixed
-     */
-    function clearItems()
-    {
-        // TODO: Implement clearItems() method.
-    }
 }

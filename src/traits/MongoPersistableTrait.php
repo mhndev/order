@@ -1,6 +1,7 @@
 <?php
 
 namespace mhndev\order\traits;
+use MongoDB\Model\BSONArray;
 
 /**
  * Class MongoPersistableTrait
@@ -18,9 +19,7 @@ trait MongoPersistableTrait
      */
     public function bsonSerialize()
     {
-        $result = \Poirot\Std\cast($this)->toArray(function($val){
-            return empty($val) && ($val !== 0 && $val !== "0");
-        });
+        $result = $this->objectToArray($this);
 
         return $result;
     }
@@ -34,6 +33,22 @@ trait MongoPersistableTrait
      */
     public function bsonUnserialize(array $data)
     {
-        $this->import($data);
+        $id = $data['_id'];
+        unset($data['_id']);
+        unset($data['__pclass']);
+
+
+        /** @var BSONArray $items */
+        $items = $data['items'];
+
+
+        $data['items'] = (array) $items;
+
+
+
+        $this->buildByOptions($data);
+
+        $this->setIdentifier($id->__toString());
+
     }
 }
