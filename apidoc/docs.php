@@ -9,8 +9,8 @@
  * @SWG\Definition(
  *   definition="Extra",
  *   required={},
- *   @SWG\Property(property="from", title="from", type="Point"),
- * 	 @SWG\Property(property="to", title="to", type="Point"),
+ *   @SWG\Property(property="from", title="from", type="Point", @SWG\Schema(ref="Point")),
+ * 	 @SWG\Property(property="to", title="to", type="Point", @SWG\Schema(ref="Point")),
  * ),
  *
  * @SWG\Definition(
@@ -27,7 +27,7 @@
  *   @SWG\Property(property="identifier", title="identifier", type="string", description="UUID", example="24rf2rf3"),
  * 	 @SWG\Property(property="itemType", title="itemType", type="string", example="peik"),
  * 	 @SWG\Property(property="itemIdentifier", title="itemIdentifier", type="string", example="2"),
- * 	 @SWG\Property(property="extra", title="extra", type="Extra"),
+ * 	 @SWG\Property(property="extra", title="extra",type="Extra", @SWG\Schema(ref="Extra"), example="{}"),
  * ),
  *
  * @SWG\Definition(
@@ -36,6 +36,7 @@
  *   @SWG\Property(property="identifier", title="identifier", type="string", description="UUID", example="42t34gt34t"),
  * 	 @SWG\Property(property="status", title="status", type="string", example="0"),
  * 	 @SWG\Property(property="data", title="date", type="string", example="23456723"),
+ *   @SWG\Property(property="items", title="items", type="array", items = {"$ref" : "OrderItem"}),
  * ),
  *
  *
@@ -117,23 +118,14 @@
  *     summary="create an order",
  *     operationId="api.order.create",
  *     produces={"application/json"},
+ *     consumes={"application/json"},
  *     tags={"Order"},
  *     @SWG\Parameter(
- *        in = "formData",
- *        name = "ownerIdentifier",
- *        description = "owner Identifier",
+ *        in = "body",
+ *        name = "body",
+ *        description = "order",
  *        required = true,
- *        type = "string"
- *     ),
- *     @SWG\Parameter(
- *        in = "formData",
- *        name = "items",
- *        description = "order items",
- *        required = true,
- *        type = "array",
- *        items = {
- *            "$ref" : "OrderItem"
- *        }
+ *        @SWG\Schema(ref="Order"),
  *     ),
  *
  *     @SWG\Response(

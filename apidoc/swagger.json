@@ -55,31 +55,26 @@
                 "summary": "create an order",
                 "description": "Create an Order and return it as response",
                 "operationId": "api.order.create",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
                     "application/json"
                 ],
                 "parameters": [
                     {
-                        "name": "ownerIdentifier",
-                        "in": "formData",
-                        "description": "owner Identifier",
+                        "name": "body",
+                        "in": "body",
+                        "description": "order",
                         "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "items",
-                        "in": "formData",
-                        "description": "order items",
-                        "required": true,
-                        "type": "array",
-                        "items": {
-                            "$ref": "OrderItem"
+                        "schema": {
+                            "$ref": "Order"
                         }
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "order show.",
+                    "201": {
+                        "description": "order created.",
                         "schema": {
                             "$ref": "Order"
                         }
@@ -164,7 +159,8 @@
                 },
                 "extra": {
                     "title": "extra",
-                    "type": "Extra"
+                    "type": "Extra",
+                    "example": ""
                 }
             }
         },
@@ -188,6 +184,13 @@
                     "title": "date",
                     "type": "string",
                     "example": "23456723"
+                },
+                "items": {
+                    "title": "items",
+                    "type": "array",
+                    "items": {
+                        "$ref": "OrderItem"
+                    }
                 }
             }
         }
