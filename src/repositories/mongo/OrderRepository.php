@@ -32,13 +32,34 @@ class OrderRepository extends aRepository implements iOrderRepository
 
     /**
      * @param $ownerIdentifier
+     * @param bool $returnArray
      * @param null $offset
      * @param null $limit
-     * @return []iEntityOrder
+     * @return array []iEntityOrder
      */
-    function findByOwner($ownerIdentifier, $offset = null, $limit = null)
+    function findByOwnerIdentifier($ownerIdentifier, $returnArray = false, $offset = null, $limit = null)
     {
-        return $this->gateway->find(['owner' => $ownerIdentifier])->toArray();
+        $condition = ['ownerIdentifier' => $ownerIdentifier];
+
+        $options = [];
+
+        if($offset || $limit){
+            $options['skip'] = $offset ? $offset : 0;
+            $options['limit']  = $limit  ? $limit  : 10;
+        }
+
+        $result = $this->gateway->find($condition, $options)->toArray();
+
+        $return = [];
+        if($returnArray){
+            foreach ($result as $record){
+                $return[] = $record->objectToArray($record);
+            }
+
+            return $return;
+        }
+
+        return $result;
     }
 
     /**
@@ -116,11 +137,21 @@ class OrderRepository extends aRepository implements iOrderRepository
 
         $result =  $this->gateway->findOneAndUpdate(
             ['_id' => new ObjectID($order->getIdentifier()) ],
-            ['$set'=>\Poirot\Std\cast($order)->toArray()],
+            ['$set'=>$order->objectToArray($order)],
             ['returnDocument' => FindOneAndUpdate::RETURN_DOCUMENT_AFTER]
         );
 
         return new \mhndev\order\entities\common\Order($result);
+    }
+
+
+    /**
+     * @param $identifier
+     * @return \MongoDB\DeleteResult
+     */
+    function deleteByIdentifier($identifier)
+    {
+        return $this->gateway->deleteOne(['_id' => new ObjectID($identifier)]);
     }
 
 }

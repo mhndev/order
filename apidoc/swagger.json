@@ -47,6 +47,39 @@
                 }
             }
         },
+        "/me.php": {
+            "get": {
+                "tags": [
+                    "Order"
+                ],
+                "summary": "show my orders",
+                "description": "Returns list of my Orders",
+                "operationId": "api.order.me",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "owner",
+                        "in": "query",
+                        "description": "owner id orders to show",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "orders list."
+                    },
+                    "401": {
+                        "description": "Unauthorized action."
+                    },
+                    "404": {
+                        "description": "Not found."
+                    }
+                }
+            }
+        },
         "/insert.php": {
             "post": {
                 "tags": [
@@ -70,6 +103,133 @@
                         "schema": {
                             "$ref": "Order"
                         }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "order created.",
+                        "schema": {
+                            "$ref": "Order"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized action."
+                    },
+                    "404": {
+                        "description": "Not found."
+                    }
+                }
+            }
+        },
+        "/chagestatus.php": {
+            "patch": {
+                "tags": [
+                    "Order"
+                ],
+                "summary": "change order status",
+                "description": "change status of and order",
+                "operationId": "api.order.change-status",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "order id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "change instruction set",
+                        "required": true,
+                        "schema": {
+                            "$ref": ""
+                        },
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content."
+                    },
+                    "401": {
+                        "description": "Unauthorized action."
+                    },
+                    "404": {
+                        "description": "Not found."
+                    }
+                }
+            }
+        },
+        "/delete.php": {
+            "delete": {
+                "tags": [
+                    "Order"
+                ],
+                "summary": "delete an order",
+                "description": "delete an order",
+                "operationId": "api.order.delete",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "order id",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content."
+                    },
+                    "401": {
+                        "description": "Unauthorized action."
+                    }
+                }
+            }
+        },
+        "/update.php": {
+            "put": {
+                "tags": [
+                    "Order"
+                ],
+                "summary": "update an order",
+                "description": "update an Order and return it as response",
+                "operationId": "api.order.create",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "order",
+                        "required": true,
+                        "schema": {
+                            "$ref": "Order"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "order id",
+                        "required": true,
+                        "type": "string"
                     }
                 ],
                 "responses": {
@@ -160,7 +320,7 @@
                 "extra": {
                     "title": "extra",
                     "type": "Extra",
-                    "example": ""
+                    "example": "{}"
                 }
             }
         },

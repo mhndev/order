@@ -110,6 +110,45 @@
 
 
 
+
+
+/**
+ *
+ * @SWG\Get(
+ *     path="/me.php",
+ *     description="Returns list of my Orders",
+ *     summary="show my orders",
+ *     operationId="api.order.me",
+ *     produces={"application/json"},
+ *     tags={"Order"},
+ *     @SWG\Parameter(
+ *        in = "query",
+ *        name = "owner",
+ *        description = "owner id orders to show",
+ *        required = true,
+ *        type = "string"
+ *     ),
+ *     @SWG\Response(
+ *         response=200,
+ *         description="orders list."
+ *     ),
+ *     @SWG\Response(
+ *         response=401,
+ *         description="Unauthorized action.",
+ *     ),
+ *     @SWG\Response(
+ *         response=404,
+ *         description="Not found.",
+ *     )
+ * )
+ */
+
+
+
+
+
+
+
 /**
  *
  * @SWG\Post(
@@ -126,6 +165,130 @@
  *        description = "order",
  *        required = true,
  *        @SWG\Schema(ref="Order"),
+ *     ),
+ *
+ *     @SWG\Response(
+ *         response=201,
+ *         description="order created.",
+ *         @SWG\Schema(ref="Order"),
+ *     ),
+ *     @SWG\Response(
+ *         response=401,
+ *         description="Unauthorized action.",
+ *     ),
+ *     @SWG\Response(
+ *         response=404,
+ *         description="Not found.",
+ *     )
+ * )
+ */
+
+
+
+
+/**
+ *
+ * @SWG\Patch(
+ *     path="/chagestatus.php",
+ *     description="change status of and order",
+ *     summary="change order status",
+ *     operationId="api.order.change-status",
+ *     produces={"application/json"},
+ *     consumes={"application/json"},
+ *     tags={"Order"},
+ *     @SWG\Parameter(
+ *        in = "query",
+ *        name = "id",
+ *        type = "string",
+ *        description = "order id",
+ *        required = true,
+ *     ),
+ *
+ *     @SWG\Parameter(
+ *        in = "body",
+ *        name = "body",
+ *        type = "string",
+ *        description = "change instruction set",
+ *        @SWG\Schema(ref=""),
+ *        required = true,
+ *     ),
+ *
+ *
+ *     @SWG\Response(
+ *         response=204,
+ *         description="No Content.",
+ *     ),
+ *
+ *     @SWG\Response(
+ *         response=401,
+ *         description="Unauthorized action.",
+ *     ),
+ *     @SWG\Response(
+ *         response=404,
+ *         description="Not found.",
+ *     )
+ * )
+ */
+
+
+
+
+
+/**
+ *
+ * @SWG\Delete(
+ *     path="/delete.php",
+ *     description="delete an order",
+ *     summary="delete an order",
+ *     operationId="api.order.delete",
+ *     produces={"application/json"},
+ *     consumes={"application/json"},
+ *     tags={"Order"},
+ *     @SWG\Parameter(
+ *        in = "query",
+ *        name = "id",
+ *        type = "string",
+ *        description = "order id",
+ *        required = true,
+ *     ),
+ *
+ *     @SWG\Response(
+ *         response=204,
+ *         description="No Content.",
+ *     ),
+ *
+ *     @SWG\Response(
+ *         response=401,
+ *         description="Unauthorized action.",
+ *     ),
+ * )
+ */
+
+
+
+/**
+ *
+ * @SWG\Put(
+ *     path="/update.php",
+ *     description="update an Order and return it as response",
+ *     summary="update an order",
+ *     operationId="api.order.create",
+ *     produces={"application/json"},
+ *     consumes={"application/json"},
+ *     tags={"Order"},
+ *     @SWG\Parameter(
+ *        in = "body",
+ *        name = "body",
+ *        description = "order",
+ *        required = true,
+ *        @SWG\Schema(ref="Order"),
+ *     ),
+ *     @SWG\Parameter(
+ *        in = "query",
+ *        name = "id",
+ *        type = "string",
+ *        description = "order id",
+ *        required = true,
  *     ),
  *
  *     @SWG\Response(

@@ -16,6 +16,10 @@ $db = $mongoClient->selectDatabase('order');
 
 $orderRepository = new mhndev\order\repositories\mongo\OrderRepository($db, 'orders');
 
+
+$data = file_get_contents('php://input');
+
+
 $result = $orderRepository->changeStatus($_POST['id'], $_POST['status'] );
 
 Kint::dump($result);

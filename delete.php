@@ -16,7 +16,8 @@ $db = $mongoClient->selectDatabase('order');
 
 $orderRepository = new mhndev\order\repositories\mongo\OrderRepository($db, 'orders');
 
-$result = $orderRepository->findByOwnerIdentifier($_GET['owner'], true);
+$result = $orderRepository->deleteByIdentifier($_GET['id']);
 
 
-echo json_encode($result);
+http_response_code(204);
+//$result->getDeletedCount();

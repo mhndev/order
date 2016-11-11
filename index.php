@@ -10,5 +10,3 @@ use Swagger\Serializer;
 $serializer = new Serializer();
 $swagger = $serializer->deserialize(file_get_contents('apidoc/out.json'), 'Swagger\Annotations\Swagger');
 echo $swagger;
-
-

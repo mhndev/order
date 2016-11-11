@@ -59,11 +59,8 @@ class Order implements iEntityOrder
      */
     function __construct($data = null)
     {
-//        $this->ownerIdentifier = $data['owner'];
-//
-//        $this->setItems($data['items']);
-//        $this->date = time();
-//        $this->status = self::ORDER_INIT;
+        $this->date = time();
+        $this->status = self::ORDER_INIT;
     }
 
 
