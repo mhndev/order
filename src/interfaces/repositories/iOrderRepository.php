@@ -19,21 +19,23 @@ interface iOrderRepository
 
     /**
      * @param $ownerIdentifier
+     * @param bool $returnArray
      * @param null $offset
      * @param null $limit
-     * @return []iEntityOrder
+     * @return  []iEntityOrder
      */
-    function findByOwnerIdentifier($ownerIdentifier, $offset = null, $limit = null);
+    function findByOwnerIdentifier($ownerIdentifier, $returnArray = false, $offset = null, $limit = null);
 
     /**
      * @param $ownerIdentifier
+     * @param bool $returnArray
      * @param $startDate
      * @param $endDate
      * @param null $offset
      * @param null $limit
      * @return mixed
      */
-    function findByOwnerAndDate($ownerIdentifier, $startDate, $endDate, $offset = null, $limit = null);
+    function findByOwnerAndDate($ownerIdentifier, $returnArray = false, $startDate, $endDate, $offset = null, $limit = null);
 
 
     /**
@@ -57,5 +59,11 @@ interface iOrderRepository
      */
     function update(iEntityOrder $order);
 
+
+    /**
+     * @param $identifier
+     * @return mixed
+     */
+    function deleteByIdentifier($identifier);
 
 }

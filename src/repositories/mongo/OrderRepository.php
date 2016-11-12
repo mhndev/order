@@ -64,13 +64,14 @@ class OrderRepository extends aRepository implements iOrderRepository
 
     /**
      * @param $ownerIdentifier
+     * @param bool $returnArray
      * @param $startDate
      * @param $endDate
      * @param null $offset
      * @param null $limit
      * @return mixed
      */
-    function findByOwnerAndDate($ownerIdentifier, $startDate, $endDate, $offset = null, $limit = null)
+    function findByOwnerAndDate($ownerIdentifier, $returnArray = false, $startDate, $endDate, $offset = null, $limit = null)
     {
         // TODO: Implement findByOwnerAndDate() method.
     }
