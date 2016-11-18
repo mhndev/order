@@ -5,6 +5,7 @@ namespace mhndev\order\entities\common;
 use mhndev\order\interfaces\entities\iEntityOrderItemObject;
 use mhndev\order\interfaces\entities\iEntityOrder;
 use mhndev\order\traits\EntityBuilderTrait;
+use Traversable;
 
 /**
  * Class Order
@@ -42,6 +43,12 @@ class Order implements iEntityOrder
 
 
     /**
+     * @var array
+     */
+    protected $options;
+
+
+    /**
      * @var array of iItemEntity
      */
     protected $items = [];
@@ -55,9 +62,9 @@ class Order implements iEntityOrder
 
     /**
      * Order constructor.
-     * @param null $data
+     * @param null $date
      */
-    function __construct($data = null)
+    function __construct($date = null)
     {
         $this->date = time();
         $this->status = self::ORDER_INIT;
@@ -234,6 +241,39 @@ class Order implements iEntityOrder
     function clearItems()
     {
         $this->items = [];
+
+        return $this;
+    }
+
+    /**
+     * Retrieve an external iterator
+     * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
+     * @return Traversable An instance of an object implementing <b>Iterator</b> or
+     * <b>Traversable</b>
+     * @since 5.0.0
+     */
+    public function getIterator()
+    {
+        $result = $this->objectToArray($this);
+
+        return new \ArrayIterator($result);
+    }
+
+    /**
+     * @return array
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+    /**
+     * @param array $options
+     * @return $this
+     */
+    public function setOptions($options)
+    {
+        $this->options = $options;
 
         return $this;
     }

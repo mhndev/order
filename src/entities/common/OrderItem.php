@@ -3,6 +3,8 @@
 namespace mhndev\order\entities\common;
 
 use mhndev\order\interfaces\entities\iEntityOrderItemObject;
+use mhndev\order\traits\EntityBuilderTrait;
+use Traversable;
 
 /**
  * Class OrderItem
@@ -10,6 +12,8 @@ use mhndev\order\interfaces\entities\iEntityOrderItemObject;
  */
 class OrderItem implements iEntityOrderItemObject
 {
+
+    use EntityBuilderTrait;
 
     /**
      * @var float
@@ -108,4 +112,19 @@ class OrderItem implements iEntityOrderItemObject
 
         return $this;
     }
+
+    /**
+     * Retrieve an external iterator
+     * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
+     * @return Traversable An instance of an object implementing <b>Iterator</b> or
+     * <b>Traversable</b>
+     * @since 5.0.0
+     */
+    public function getIterator()
+    {
+        $result = $this->objectToArray($this);
+
+        return new \ArrayIterator($result);
+    }
+
 }

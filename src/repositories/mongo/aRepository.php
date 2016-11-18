@@ -44,4 +44,21 @@ abstract class aRepository
         $this->gateway = $this->db->{$this->collectionName};
     }
 
+
+
+    /**
+     * @param $instance
+     * @param $className
+     * @return mixed
+     */
+    protected function objectToObject($instance, $className)
+    {
+        return unserialize(sprintf(
+            'O:%d:"%s"%s',
+            strlen($className),
+            $className,
+            strstr(strstr(serialize($instance), '"'), ':')
+        ));
+    }
+
 }

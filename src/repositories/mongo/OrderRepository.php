@@ -6,6 +6,7 @@ use mhndev\order\entities\mongo\Order;
 use mhndev\order\interfaces\entities\iEntityOrder;
 use mhndev\order\interfaces\repositories\iOrderRepository;
 use MongoDB\BSON\ObjectID;
+use MongoDB\Driver\Cursor;
 use MongoDB\Operation\FindOneAndUpdate;
 
 /**
@@ -32,12 +33,11 @@ class OrderRepository extends aRepository implements iOrderRepository
 
     /**
      * @param $ownerIdentifier
-     * @param bool $returnArray
      * @param null $offset
      * @param null $limit
      * @return array []iEntityOrder
      */
-    function findByOwnerIdentifier($ownerIdentifier, $returnArray = false, $offset = null, $limit = null)
+    function findByOwnerIdentifier($ownerIdentifier, $offset = null, $limit = null)
     {
         $condition = ['ownerIdentifier' => $ownerIdentifier];
 
@@ -48,30 +48,30 @@ class OrderRepository extends aRepository implements iOrderRepository
             $options['limit']  = $limit  ? $limit  : 10;
         }
 
+        $count = $this->gateway->count($condition);
+
         $result = $this->gateway->find($condition, $options)->toArray();
 
         $return = [];
-        if($returnArray){
-            foreach ($result as $record){
-                $return[] = $record->objectToArray($record);
-            }
 
-            return $return;
+        $return['total'] = $count;
+
+        foreach ($result as $record){
+            $return['data'][] = $this->objectToObject($record, \mhndev\order\entities\common\Order::class);
         }
 
-        return $result;
+        return $return;
     }
 
     /**
      * @param $ownerIdentifier
-     * @param bool $returnArray
      * @param $startDate
      * @param $endDate
      * @param null $offset
      * @param null $limit
      * @return mixed
      */
-    function findByOwnerAndDate($ownerIdentifier, $returnArray = false, $startDate, $endDate, $offset = null, $limit = null)
+    function findByOwnerAndDate($ownerIdentifier, $startDate, $endDate, $offset = null, $limit = null)
     {
         // TODO: Implement findByOwnerAndDate() method.
     }
@@ -92,21 +92,6 @@ class OrderRepository extends aRepository implements iOrderRepository
         return new \mhndev\order\entities\common\Order($result);
     }
 
-
-    /**
-     * @param $instance
-     * @param $className
-     * @return mixed
-     */
-    private function objectToObject($instance, $className)
-    {
-        return unserialize(sprintf(
-            'O:%d:"%s"%s',
-            strlen($className),
-            $className,
-            strstr(strstr(serialize($instance), '"'), ':')
-        ));
-    }
 
 
     /**
