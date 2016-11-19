@@ -4,8 +4,8 @@ namespace mhndev\order\entities\common;
 
 use mhndev\order\interfaces\entities\iEntityOrderItemObject;
 use mhndev\order\interfaces\entities\iEntityOrder;
-use mhndev\order\traits\EntityBuilderTrait;
 use mhndev\order\exceptions\InvalidArgumentException;
+use mhndev\phpStd\ObjectBuilder;
 use Traversable;
 
 /**
@@ -15,7 +15,7 @@ use Traversable;
 class Order implements iEntityOrder
 {
 
-    use EntityBuilderTrait;
+    use ObjectBuilder;
 
     /**
      * @var

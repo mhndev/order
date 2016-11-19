@@ -6,7 +6,6 @@ use mhndev\order\entities\mongo\Order;
 use mhndev\order\interfaces\entities\iEntityOrder;
 use mhndev\order\interfaces\repositories\iOrderRepository;
 use MongoDB\BSON\ObjectID;
-use MongoDB\Driver\Cursor;
 use MongoDB\Operation\FindOneAndUpdate;
 
 /**
@@ -22,14 +21,42 @@ class OrderRepository extends aRepository implements iOrderRepository
      */
     function findByIdentifier($identifier)
     {
-        $result = $this->gateway->findOne(['_id' => new ObjectID($identifier) ]);
+        /** @var Order $result */
+        $foundedOrder = $this->gateway->findOne(['_id' => new ObjectID($identifier) ]);
+        $storageUnawareOrder = $foundedOrder->castTo(\mhndev\order\entities\common\Order::class);
+        $storageUnawareOrder->identifier =$identifier;
 
-        $order = $this->objectToObject($result, \mhndev\order\entities\common\Order::class);
-
-        $order->setIdentifier($identifier);
-
-        return $order;
+        return $storageUnawareOrder;
     }
+
+
+    /**
+     * @param null $offset
+     * @param null $limit
+     * @return array
+     */
+    function listAll($offset = null, $limit = null)
+    {
+        $options = [];
+
+        if($offset || $limit){
+            $options['skip'] = get($offset, 0);
+            $options['limit']  = get($limit, 10);
+        }
+
+        $count = $this->gateway->count();
+        $result = $this->gateway->find([], $options)->toArray();
+        $return = [];
+        $return['total'] = $count;
+
+        /** @var Order $record */
+        foreach ($result as $record){
+            $return['data'][] = $record->castTo(\mhndev\order\entities\common\Order::class);
+        }
+
+        return $return;
+    }
+
 
     /**
      * @param $ownerIdentifier
@@ -56,8 +83,9 @@ class OrderRepository extends aRepository implements iOrderRepository
 
         $return['total'] = $count;
 
+        /** @var Order $record */
         foreach ($result as $record){
-            $return['data'][] = $this->objectToObject($record, \mhndev\order\entities\common\Order::class);
+            $return['data'][] = $record->castTo(\mhndev\order\entities\common\Order::class);
         }
 
         return $return;
@@ -101,11 +129,12 @@ class OrderRepository extends aRepository implements iOrderRepository
     function insert(iEntityOrder $order)
     {
         /** @var Order $orderMongo */
-        $orderMongo = $this->objectToObject($order, Order::class);
+        /** @var \mhndev\order\entities\common\Order $order */
+        $orderMongo = $order->castTo(Order::class);
 
         $res = $this->gateway->insertOne($orderMongo);
 
-        $order->setIdentifier($res->getInsertedId()->__toString());
+        $order->identifier = $res->getInsertedId()->__toString();
 
         return $order;
     }

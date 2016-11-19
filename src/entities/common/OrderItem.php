@@ -3,7 +3,7 @@
 namespace mhndev\order\entities\common;
 
 use mhndev\order\interfaces\entities\iEntityOrderItemObject;
-use mhndev\order\traits\EntityBuilderTrait;
+use mhndev\phpStd\ObjectBuilder;
 use Traversable;
 
 /**
@@ -13,7 +13,7 @@ use Traversable;
 class OrderItem implements iEntityOrderItemObject
 {
 
-    use EntityBuilderTrait;
+    use ObjectBuilder;
 
     /**
      * @var float
