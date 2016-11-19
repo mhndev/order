@@ -36,6 +36,23 @@ class OrderItem implements iEntityOrderItemObject
      */
     protected $itemIdentifier;
 
+
+    /**
+     * @param array $options
+     * @return static
+     */
+    static function fromOptions(array $options)
+    {
+        $instance = new static();
+
+        foreach ($options as $key => $value){
+            $instance->{'set'.ucfirst($key)}($value);
+        }
+
+        return $instance;
+    }
+
+
     /**
      * @return float
      */

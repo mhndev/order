@@ -1,6 +1,8 @@
 <?php
 
 namespace mhndev\order\traits;
+use mhndev\order\entities\common\OrderItem;
+use MongoDB\Model\BSONArray;
 
 /**
  * Class EntityBuilderTrait
@@ -8,6 +10,16 @@ namespace mhndev\order\traits;
  */
 trait EntityBuilderTrait
 {
+
+
+    /**
+     * @param $name
+     * @param $value
+     */
+    function __set($name, $value)
+    {
+        $this->$name = $value;
+    }
 
     /**
      * @param array $options
@@ -36,6 +48,7 @@ trait EntityBuilderTrait
 
         return $this;
     }
+
 
     /**
      * @return array

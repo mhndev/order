@@ -38,17 +38,8 @@ trait MongoPersistableTrait
         unset($data['__pclass']);
 
 
-        /** @var BSONArray $items */
-        $items = $data['items'];
-
-
-        $data['items'] = (array) $items;
-
-
-
         $this->buildByOptions($data);
 
         $this->setIdentifier($id->__toString());
-
     }
 }

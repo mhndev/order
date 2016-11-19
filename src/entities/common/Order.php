@@ -5,6 +5,7 @@ namespace mhndev\order\entities\common;
 use mhndev\order\interfaces\entities\iEntityOrderItemObject;
 use mhndev\order\interfaces\entities\iEntityOrder;
 use mhndev\order\traits\EntityBuilderTrait;
+use mhndev\order\exceptions\InvalidArgumentException;
 use Traversable;
 
 /**
@@ -29,7 +30,7 @@ class Order implements iEntityOrder
     /**
      * @var float
      */
-    protected $price;
+    protected $price = 0;
 
     /**
      * @var
@@ -135,6 +136,7 @@ class Order implements iEntityOrder
         }
 
         $this->items[] = $item;
+
         $this->price += $item->getPrice();
 
         return $this;
@@ -193,16 +195,34 @@ class Order implements iEntityOrder
 
 
     /**
-     * @param array $items
+     * @param $items
      * @return $this
      */
-    function setItems(array $items)
+    function setItems($items)
     {
+        if(! is_array($items) && ! ($items instanceof Traversable) && ! ($items instanceof \stdClass)){
+            throw new InvalidArgumentException('argument must be array or instance of StdClass or 
+            It should be instance of \Traversable ');
+        }
+
+        if($items instanceof \stdClass){
+            $items = $this->objectToArray($items);
+        }
+
+
 
         foreach ($items as $item){
+
+            if($item instanceof \ArrayObject){
+                $item = $item->getArrayCopy();
+            }
+
+            if($item instanceof \stdClass){
+                $item = $this->objectToArray($item);
+            }
+
             $orderItemObject = new OrderItem($item);
 
-            //todo check this code here ...
             $orderItemObject->setPrice($item['price']);
             $orderItemObject->setExtra($item['extra'] );
             $orderItemObject->setItemType($item['itemType']);

@@ -120,10 +120,9 @@ class OrderRepository extends aRepository implements iOrderRepository
      */
     function update(iEntityOrder $order)
     {
-
         $result =  $this->gateway->findOneAndUpdate(
             ['_id' => new ObjectID($order->getIdentifier()) ],
-            ['$set'=>$order->objectToArray($order)],
+            ['$set'=>iterator_to_array($order)],
             ['returnDocument' => FindOneAndUpdate::RETURN_DOCUMENT_AFTER]
         );
 
