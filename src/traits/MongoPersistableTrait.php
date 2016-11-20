@@ -39,6 +39,7 @@ trait MongoPersistableTrait
 
         $this->buildByOptions($data);
 
-        $this->setIdentifier($id->__toString());
+        $this->identifier = $id->__toString();
+
     }
 }
