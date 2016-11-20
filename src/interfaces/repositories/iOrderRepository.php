@@ -21,7 +21,7 @@ interface iOrderRepository
      * @param $ownerIdentifier
      * @param null $offset
      * @param null $limit
-     * @return  []iEntityOrder
+     * @return  array []iEntityOrder
      */
     function findByOwnerIdentifier($ownerIdentifier, $offset = null, $limit = null);
 

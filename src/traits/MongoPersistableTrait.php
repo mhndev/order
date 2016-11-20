@@ -1,7 +1,6 @@
 <?php
 
 namespace mhndev\order\traits;
-use MongoDB\Model\BSONArray;
 
 /**
  * Class MongoPersistableTrait
