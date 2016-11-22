@@ -24,7 +24,7 @@ class OrderRepository extends aRepository implements iOrderRepository
         /** @var Order $result */
         $foundedOrder = $this->gateway->findOne(['_id' => new ObjectID($identifier) ]);
         $storageUnawareOrder = $foundedOrder->castTo(\mhndev\order\entities\common\Order::class);
-        $storageUnawareOrder->identifier =$identifier;
+        $storageUnawareOrder->identifier = $identifier;
 
         return $storageUnawareOrder;
     }

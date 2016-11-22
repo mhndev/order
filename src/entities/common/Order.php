@@ -56,9 +56,16 @@ class Order implements iEntityOrder
 
 
     const ORDER_INIT     = 1;
-    const ORDER_CANCELED = 2;
-    const ORDER_RECEIVED = 3;
-    const ORDER_PAYED    = 4;
+
+    const ORDER_CANCELED_BY_CUSTOMER = 2;
+
+    const ORDER_CANCELED_BY_DRIVER = 3;
+
+    const ORDER_CANCELED_BY_ROOT = 4;
+
+    const ORDER_CONFIRMED_BY_DRIVER = 5;
+
+    const ORDER_DELIVERED = 6;
 
 
     /**
@@ -294,6 +301,30 @@ class Order implements iEntityOrder
     public function setOptions($options)
     {
         $this->options = $options;
+
+        return $this;
+    }
+
+    /**
+     * @param string $optionKey
+     * @param Traversable | array $optionValue
+     * @return $this
+     */
+    public function addOption($optionKey, $optionValue)
+    {
+        $this->options[$optionKey] = $optionValue;
+
+        return $this;
+    }
+
+
+    /**
+     * @param string $optionKey
+     * @return $this
+     */
+    public function removeOption($optionKey)
+    {
+        unset($this->options[$optionKey]);
 
         return $this;
     }
