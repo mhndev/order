@@ -5,6 +5,7 @@ namespace mhndev\order\repositories\mongo;
 use mhndev\order\entities\mongo\Order;
 use mhndev\order\interfaces\entities\iEntityOrder;
 use mhndev\order\interfaces\repositories\iOrderRepository;
+use mhndev\order\OrderAccess;
 use MongoDB\BSON\ObjectID;
 use MongoDB\Operation\FindOneAndUpdate;
 

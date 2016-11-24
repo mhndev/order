@@ -55,27 +55,27 @@ class Order implements iEntityOrder
     protected $items = [];
 
 
-    const ORDER_INIT     = 1;
+    const INIT     = 1;
 
-    const ORDER_CANCELED_BY_CUSTOMER = 2;
+    const ASSIGNED = 2;
 
-    const ORDER_CANCELED_BY_DRIVER = 3;
+    const ACCEPTED = 3;
 
-    const ORDER_CANCELED_BY_ROOT = 4;
+    const LOADED = 4;
 
-    const ORDER_CONFIRMED_BY_DRIVER = 5;
+    const DELIVERED = 5;
 
-    const ORDER_DELIVERED = 6;
+    const CANCELED = 6;
 
+    const DELETED = 7;
 
     /**
      * Order constructor.
-     * @param null $date
      */
-    function __construct($date = null)
+    function __construct()
     {
         $this->date = time();
-        $this->status = self::ORDER_INIT;
+        $this->status = self::INIT;
     }
 
 

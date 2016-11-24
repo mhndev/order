@@ -1,6 +1,6 @@
 <?php
 
-namespace mhndev\driver\services;
+namespace mhndev\order;
 
 use mhndev\order\interfaces\entities\iEntityOrder;
 
@@ -11,57 +11,45 @@ use mhndev\order\interfaces\entities\iEntityOrder;
 class OrderAccess
 {
     /**
-     *
-     * Rule Sample
-     * [
-     *      fromStatus
-     *      toStatus
-     *      callable
-     *
-     * ]
-     * @var array $rules
+     * @var array $exceptions
      */
-    private static $rules;
+    private $exceptions;
 
 
     /**
-     * @param $fromStatus
-     * @param $toStatus
-     * @param callable $callable which should return true or false
-     *
-     * @param array $options
-     * @throws \Exception
+     * @param array $exceptions
      */
-    static function allow($fromStatus, $toStatus, Callable $callable, array $options = [])
+    function __construct(array $exceptions)
     {
-        if(array_key_exists($fromStatus, self::$rules)){
-            throw new \Exception('Rule Already Exist');
-        }
-
-        self::$rules[$fromStatus] = [
-            'fromStatus' => $fromStatus,
-            'toStatus' => $toStatus,
-            'callable' => $callable,
-            'options'  => $options
-        ];
-
+        $this->exceptions = $exceptions;
     }
-
 
     /**
      * @param iEntityOrder $order
-     * @param $status
+     * @param string $status
+     * @param $scopes
      * @return mixed
      */
-    static function can(iEntityOrder $order, $status)
+    function can(iEntityOrder $order, $status, $scopes)
     {
-        $rule = self::$rules[$order->getStatus()];
+        if(! is_array($scopes)){
+            $scopes = [$scopes, '*'];
+        }else{
+            $scopes[] = '*';
+        }
 
-        $callable = $rule['callable']();
 
-        unset($rule['callable']);
+        foreach ($scopes as $scope) {
+            if(! array_key_exists($scope, $this->exceptions)){
+                return 'no-access';
+            }
 
-        return $callable($rule, $status);
+            if(array_key_exists($order->getStatus().':::'.$status, $this->exceptions[$scope] ) ){
+                return $this->exceptions[$scope][$order->getStatus().':::'.$status];
+            }
+        }
+
+        return true;
     }
 
 }
