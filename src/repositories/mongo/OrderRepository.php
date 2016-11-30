@@ -36,13 +36,18 @@ class OrderRepository extends aRepository implements iOrderRepository
      * @param null $limit
      * @return array
      */
-    function listAll($offset = null, $limit = null)
+    function listAll($offset = null, $limit = null, array $sort = [])
     {
         $options = [];
 
         if($offset || $limit){
             $options['skip'] = get($offset, 0);
             $options['limit']  = get($limit, 10);
+        }
+
+
+        if($sort){
+            $options['sort'] = [$sort['sort'] => $sort['dir']];
         }
 
         $count = $this->gateway->count();
@@ -65,15 +70,20 @@ class OrderRepository extends aRepository implements iOrderRepository
      * @param null $limit
      * @return array []iEntityOrder
      */
-    function findByOwnerIdentifier($ownerIdentifier, $offset = null, $limit = null)
+    function findByOwnerIdentifier($ownerIdentifier, $offset = null, $limit = null, array $sort = [])
     {
         $condition = ['ownerIdentifier' => $ownerIdentifier];
 
         $options = [];
 
-        if($offset || $limit){
+        if($offset || $limit) {
             $options['skip'] = $offset ? $offset : 0;
             $options['limit']  = $limit  ? $limit  : 10;
+        }
+
+
+        if($sort){
+            $options['sort'] = [$sort['sort'] => $sort['dir']];
         }
 
         $count = $this->gateway->count($condition);
@@ -100,7 +110,7 @@ class OrderRepository extends aRepository implements iOrderRepository
      * @param null $limit
      * @return mixed
      */
-    function findByOwnerAndDate($ownerIdentifier, $startDate, $endDate, $offset = null, $limit = null)
+    function findByOwnerAndDate($ownerIdentifier, $startDate, $endDate, $offset = null, $limit = null, array $sort = [])
     {
         // TODO: Implement findByOwnerAndDate() method.
     }

@@ -23,7 +23,7 @@ interface iOrderRepository
      * @param null $limit
      * @return  array []iEntityOrder
      */
-    function findByOwnerIdentifier($ownerIdentifier, $offset = null, $limit = null);
+    function findByOwnerIdentifier($ownerIdentifier, $offset = null, $limit = null, array $sort = []);
 
     /**
      * @param $ownerIdentifier
@@ -33,7 +33,7 @@ interface iOrderRepository
      * @param null $limit
      * @return mixed
      */
-    function findByOwnerAndDate($ownerIdentifier, $startDate, $endDate, $offset = null, $limit = null);
+    function findByOwnerAndDate($ownerIdentifier, $startDate, $endDate, $offset = null, $limit = null, array $sort = []);
 
 
     /**
