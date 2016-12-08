@@ -81,6 +81,14 @@ class Order implements iEntityOrder
 
 
     /**
+     * @return array|\Traversable
+     */
+    function getOptions()
+    {
+        return $this->options;
+    }
+
+    /**
      * @return mixed
      */
     function getStatus()
@@ -286,13 +294,6 @@ class Order implements iEntityOrder
         return new \ArrayIterator($result);
     }
 
-    /**
-     * @return array
-     */
-    public function getOptions()
-    {
-        return $this->options;
-    }
 
     /**
      * @param array $options

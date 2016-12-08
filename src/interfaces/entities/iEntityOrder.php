@@ -3,7 +3,7 @@
 namespace mhndev\order\interfaces\entities;
 
 /**
- * Interface iOrderEntity
+ * Interface iEntityOrder
  * @package mhndev\order\interfaces
  */
 interface iEntityOrder extends iEntity
@@ -51,4 +51,9 @@ interface iEntityOrder extends iEntity
      */
     function clearItems();
 
+
+    /**
+     * @return array|\Traversable
+     */
+    function getOptions();
 }
